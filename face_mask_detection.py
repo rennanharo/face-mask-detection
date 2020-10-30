@@ -11,7 +11,7 @@ import streamlit as st
 from PIL import Image
 
 
-st.beta_set_page_config(page_title="Detecção de Máscara",page_icon="😷",layout="centered",initial_sidebar_state="auto",)
+st.set_page_config(page_title="Detecção de Máscara",page_icon="😷",layout="centered",initial_sidebar_state="auto",)
 st.markdown("<h1 style='text-align: center ; color: black;'>Detecção de Máscara 😷</h1>", unsafe_allow_html=True)
 # st.markdown("<h6 style='text-align: center ; color: black;'>Desenvolvido por Rennan Haro para a disciplina de Projetos de Sistemas de Informação.</h6>", unsafe_allow_html=True)
 

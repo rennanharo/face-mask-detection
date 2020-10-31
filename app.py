@@ -9,8 +9,7 @@ import time
 import shutil
 import streamlit as st
 from PIL import Image
-
-st.set_page_config(page_title="Detecção de Máscara",page_icon="😷",layout="centered",initial_sidebar_state="collapsed",)
+from pathlib import Path
 
 def local_css(file_name):
 	with open(Path(file_name)) as f:
@@ -20,8 +19,8 @@ local_css("./assets/style.css")
 st.markdown("<h1 style='text-align: center ; color: black;'>Detecção de Máscara 😷</h1>", unsafe_allow_html=True)
 st.markdown("<h6 style='text-align: center ; color: black;'>Trabalho desenvolvido para a disciplina de Projetos de Sistemas de Informação.</h6>", unsafe_allow_html=True)
 
-st.sidebar.header("Mask Detection Confidence")
-min_confidence = st.sidebar.slider(' ', 0.1, 1.0, 0.5)
+#st.sidebar.header("Mask Detection Confidence")
+min_confidence = 0.5
 
 uploaded_file = st.file_uploader("Faça o upload de uma imagem")
 
@@ -30,14 +29,6 @@ if uploaded_file is not None:
 	# Convert the file to an opencv image.
 	file_bytes = np.asarray(bytearray(uploaded_file.read()), dtype=np.uint8)
 	image = cv2.imdecode(file_bytes, 1)
-	
-	# st.write(image.name)
-	# Now do something with the image! For example, let's display it:
-	
-	# with st.beta_expander("Display Uploaded Image"):
-	# 	st.image(image, channels="BGR")
-
-	###################
 
 	gif_path = './assets/giphy.gif'
 	gif_runner = st.image(gif_path)
@@ -48,11 +39,9 @@ if uploaded_file is not None:
 	weightsPath = os.path.sep.join(["face_detector", "res10_300x300_ssd_iter_140000.caffemodel"])
 	net = cv2.dnn.readNet(prototxtPath, weightsPath)
 	# load the face mask detector model from disk
-	#print("[INFO] loading face mask detector model...")
 	model = load_model(mask_detector_model)
 	# load the input image from disk, clone it, and grab the image spatial
 	# dimensions
-	#image = cv2.imread(input_image_path)
 	orig = image.copy()
 	(h, w) = image.shape[:2]
 	# construct a blob from the image
@@ -60,7 +49,6 @@ if uploaded_file is not None:
 		(104.0, 177.0, 123.0))
 
 	# pass the blob through the network and obtain the face detections
-	#print("[INFO] computing face detections...")
 	net.setInput(blob)
 	detections = net.forward()
 
@@ -116,8 +104,6 @@ if uploaded_file is not None:
 
 	output_image = os.path.join(folder_name, uploaded_file.name)
 	cv2.imwrite(output_image, image)
-
-	#st.image(output_image)
 
 	gif_runner.empty()
 		

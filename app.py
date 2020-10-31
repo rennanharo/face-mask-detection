@@ -10,40 +10,20 @@ import shutil
 import streamlit as st
 from PIL import Image
 
-
 st.set_page_config(page_title="Detecção de Máscara",page_icon="😷",layout="centered",initial_sidebar_state="collapsed",)
+
+def local_css(file_name):
+	with open(Path(file_name)) as f:
+		st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+local_css("./assets/style.css")
+
 st.markdown("<h1 style='text-align: center ; color: black;'>Detecção de Máscara 😷</h1>", unsafe_allow_html=True)
 st.markdown("<h6 style='text-align: center ; color: black;'>Trabalho desenvolvido para a disciplina de Projetos de Sistemas de Informação.</h6>", unsafe_allow_html=True)
-
-with open("style.css") as f:
-    st.markdown('<style>{}</style>'.format(f.read()), unsafe_allow_html=True)
 
 st.sidebar.header("Mask Detection Confidence")
 min_confidence = st.sidebar.slider(' ', 0.1, 1.0, 0.5)
 
-def stylize():    
-    #Footer vanish
-    hide_footer_style = """
-    <style>
-    .reportview-container .main footer {visibility: hidden;}    
-    """
-    st.markdown(hide_footer_style, unsafe_allow_html=True)
-    #Hamburger menu vanish
-    hide_streamlit_style = """
-                <style>
-                #MainMenu {visibility: hidden;}
-                footer {visibility: hidden;}
-                </style>
-                """
-    st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
-
-stylize()
-
-# uploaded_file = st.file_uploader("Choose a image file", type=["jpg", "png", "jpeg"])
-# st.set_option('deprecation.showfileUploaderEncoding', False)
-
 uploaded_file = st.file_uploader("Faça o upload de uma imagem")
-
 
 if uploaded_file is not None:
 	image = None
@@ -59,7 +39,7 @@ if uploaded_file is not None:
 
 	###################
 
-	gif_path = 'giphy.gif'
+	gif_path = './assets/giphy.gif'
 	gif_runner = st.image(gif_path)
 	# load our serialized face detector model from disk
 	#print("[INFO] loading face detector model...")
